@@ -1,10 +1,10 @@
 {
-  "name": "my-first-react",
+  "name": "todo-list",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev ",
+    "build": "next build ",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
