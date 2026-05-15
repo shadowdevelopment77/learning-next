@@ -12,6 +12,18 @@ export async function GET() {
     };
     return NextResponse.json(response);
 }
+export async function PUT() {
+ 
+  return NextResponse.json({ success: true })
+}
+
+
+export async function DELETE() {
+
+
+  return NextResponse.json({ success: true })
+}
+
 
 export async function POST(request: NextRequest){
     const body = await request.json();

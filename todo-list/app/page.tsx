@@ -25,6 +25,12 @@ export default function HomePage() {
         ));
     }
 
+    function handleEdit(id: string, newTitle: string) {
+        setTodos(todos.map(todo => 
+            todo.id === id ? {...todo, title: newTitle} : todo
+        ));
+    }
+
     function handleDelete(id: string) {
         setTodos(todos.filter(todo => todo.id !== id));
     }
@@ -57,6 +63,7 @@ export default function HomePage() {
             todo={todo}
             onToggle={handleToggle}
             onDelete={handleDelete}
+            onEdit={handleEdit}
           />
         ))
       )}
