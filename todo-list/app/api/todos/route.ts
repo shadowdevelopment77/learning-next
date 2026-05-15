@@ -5,6 +5,7 @@ const todos: Todo[] = [];
 
 
 export async function GET() {
+    console.log("GET /api/todos");
     const response: ApiResponse<Todo[]> = {
         data: todos,
         message: "Todos fetched successfully",
@@ -13,12 +14,13 @@ export async function GET() {
     return NextResponse.json(response);
 }
 export async function PUT() {
- 
+        console.log("PUT /api/todos hit")
   return NextResponse.json({ success: true })
 }
 
 
 export async function DELETE() {
+    console.log("DELETE /api/todos hit")
 
 
   return NextResponse.json({ success: true })
@@ -26,6 +28,7 @@ export async function DELETE() {
 
 
 export async function POST(request: NextRequest){
+    console.log("POST /api/todos hit")
     const body = await request.json();
 
     if(!body.title || body.title.trim() === ""){
@@ -42,6 +45,7 @@ export async function POST(request: NextRequest){
     };
     todos.push(newTodo);
 
+    console.log("todos after POST: ", todos)
     const response: ApiResponse<Todo> = {
         data: newTodo,
         message: "Todo created successfully",
