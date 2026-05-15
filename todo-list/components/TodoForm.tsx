@@ -9,7 +9,7 @@ interface Props {
 export default function TodoForm({ onAdd }: Props) {
     const [title, setTitle] = useState("");
 
-    function handleSubmit(e: React.FormEvent){
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         if(title.trim() === "") return;
         onAdd(title);
