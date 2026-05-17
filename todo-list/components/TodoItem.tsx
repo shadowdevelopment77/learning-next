@@ -4,9 +4,9 @@ import { useState } from "react";
 
 interface Props {
     todo: Todo
-    onToggle: (id: string) => void
-    onDelete: (id: string) => void
-    onEdit: (id: string, title: string) => void
+    onToggle: (id: number) => void
+    onDelete: (id: number) => void
+    onEdit: (id: number, title: string) => void
 }
 
 export default function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
@@ -24,7 +24,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
             {}
             <input
                 type="checkbox"
-                checked={todo.completed}
+                checked={todo.is_complete}
                 onChange={() => onToggle(todo.id)}
                 className="w-4 h-4 cursor-pointer"
             />
@@ -46,7 +46,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
         </>
       ) : (
         <>
-          <span className={todo.completed
+          <span className={todo.is_complete
             ? "flex-1 line-through text-gray-400"
             : "flex-1 text-gray-800"
           }>
