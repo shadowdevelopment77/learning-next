@@ -1,12 +1,24 @@
 export interface Todo{
-    id: string
+    id: number
     title: string
-    completed: boolean
-    createdAt: Date
+    is_complete: boolean
+    created_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    completed_at: Date | null
+    user_id: number | null
 }
 
-export type CreateTodoInput = Omit<Todo, "id" | "createdAt">;
-
+export interface User {
+    id: number
+    name: string
+    email: string
+    role: string
+    created_at: Date
+    is_deleted: boolean
+    deleted_at: Date | null
+    is_active: boolean
+}
 
 export interface ApiResponse<T> {
     data: T
