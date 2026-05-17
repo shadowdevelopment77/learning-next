@@ -1,28 +1,50 @@
 'use client'
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TodoForm from "@/components/TodoForm";
 import TodoItem from "@/components/TodoItem";
 import { Todo } from "@/types";
 
 export default function HomePage() {
     const [todos, setTodos] = useState<Todo[]>([]);
+
+    useEffect(() => {
+      fetchTodos()
+    }, [])
+
+    async function fetchTodos() {
+        const res = await fetch("/api/todos");
+        const data = await res.json();
+        setTodos(data.data);
+    }
     
-    function handleAdd(title: string) {
-        const newTodo: Todo = {
-            id: crypto.randomUUID(),
-            title,
-            completed: false,
-            createdAt: new Date()
-        };
-        setTodos([...todos, newTodo]);
+    async function handleAdd(title: string) {
+        const res = await fetch("/api/todos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title })
+        });
+        const json  = await res.json();
+        if(json.success){
+            setTodos([json.data, ...todos]);
+        }
     }
 
 
-    function handleToggle(id: string) {
-        setTodos(todos.map(todo => 
-            todo.id === id ? {...todo, completed: !todo.completed} : todo
-        ));
+    async function handleToggle(id: number) {
+        const todo = todos.find(t => t.id === id);
+        if (!todo) return;
+
+        const res = await fetch(`/api/todos/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ is_complete: !todo.is_complete })
+        });
+        const json  = await res.json();
+        if(json.success){
+            setTodos(todos.map(t => 
+                t.id === id ? json.data : t ));
+        }
     }
 
     function handleEdit(id: string, newTitle: string) {
