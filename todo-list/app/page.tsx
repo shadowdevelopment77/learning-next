@@ -63,12 +63,16 @@ export default function HomePage() {
     }
 
    async function handleDelete(id: number) {
-        await fetch(`/api/todos/${id}`, {
-            method: "DELETE",
-        });
+    const res = await fetch(`/api/todos/${id}`, {
+        method: "DELETE",
+    });
+
+    const json = await res.json();
+
+    if (json.success) {
         setTodos(todos.filter(t => t.id !== id));
     }
-
+}
     const total =  todos.length
     const completed = todos.filter(t => t.is_complete).length
 
