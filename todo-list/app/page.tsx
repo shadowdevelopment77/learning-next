@@ -47,18 +47,28 @@ export default function HomePage() {
         }
     }
 
-    function handleEdit(id: string, newTitle: string) {
-        setTodos(todos.map(todo => 
-            todo.id === id ? {...todo, title: newTitle} : todo
-        ));
+    async function handleEdit(id: number, newTitle: string) {
+        const res = await fetch(`/api/todos/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: newTitle })
+        });
+        const json  = await res.json();
+        if(json.success){
+            setTodos(todos.map(t => 
+                t.id === id ? json.data : t ));
+        }
     }
 
-    function handleDelete(id: string) {
-        setTodos(todos.filter(todo => todo.id !== id));
+   async function handleDelete(id: number) {
+        await fetch(`/api/todos/${id}`, {
+            method: "DELETE",
+        });
+        setTodos(todos.filter(t => t.id !== id));
     }
 
     const total =  todos.length
-    const completed = todos.filter(todo => todo.completed).length
+    const completed = todos.filter(t => t.is_complete).length
 
     return (
         <main className="max-w-lg mx-auto mt-12 px-4">
