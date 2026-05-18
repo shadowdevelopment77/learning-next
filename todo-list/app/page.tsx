@@ -4,6 +4,8 @@ import {useEffect, useState} from "react";
 import TodoForm from "@/components/TodoForm";
 import TodoItem from "@/components/TodoItem";
 import { Todo } from "@/types";
+import "./globals.css";
+
 
 export default function HomePage() {
     const [todos, setTodos] = useState<Todo[]>([]);
@@ -50,6 +52,11 @@ export default function HomePage() {
         }
     }
 
+    async function handleLogout() {
+        await fetch('/api/auth/logout', { method: 'POST' });
+        window.location.href = '/login';
+    }
+
     async function handleEdit(id: number, newTitle: string) {
         const res = await fetch(`/api/todos/${id}`, {
             method: "PUT",
@@ -79,6 +86,9 @@ export default function HomePage() {
 
     return (
         <main className="max-w-lg mx-auto mt-12 px-4">
+          <button onClick={handleLogout} className="mb-4 text-sm text-red-500 hover:underline">
+            Logout
+          </button>
 
       <h1 className="text-2xl font-bold text-gray-800 mb-1">
         My To-Do List
