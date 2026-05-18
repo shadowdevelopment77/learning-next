@@ -11,9 +11,12 @@ export async function GET() {
       { status: 401 }
     )
   }
+  
 
   return NextResponse.json({
-    data:    session,
+    data: {
+        name: session.name || 'User'
+    },
     success: true,
   })
 }

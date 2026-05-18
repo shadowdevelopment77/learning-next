@@ -9,6 +9,7 @@ import "./globals.css";
 
 export default function HomePage() {
     const [todos, setTodos] = useState<Todo[]>([]);
+    const [username, setUsername] = useState<string>("");
 
     useEffect(() => {
      async function fetchTodos() {
@@ -20,7 +21,20 @@ export default function HomePage() {
         console.error("Failed to fetch todos:", error);
       }
      }
-     fetchTodos();
+     async function fetchUserData() {
+            try {
+                const response = await fetch("/api/auth/me");
+                const json = await response.json();
+                if (json.success && json.data) {
+                    setUsername(json.data.name);
+                }
+            } catch (error) {
+                console.error("Failed to fetch user data:", error);
+            }
+        }
+
+        fetchTodos();
+        fetchUserData(); // 🆕 Run it on page load
     }, []); 
     
     async function handleAdd(title: string) {
@@ -86,6 +100,12 @@ export default function HomePage() {
 
     return (
         <main className="max-w-lg mx-auto mt-12 px-4">
+
+         {username && (
+            <h1 className=" fixed top-4 left-4 text-xl font-semibold text-emerald-600 tracking-wide uppercase mb-2">
+              Welcome back, {username}! 👋
+            </h1>
+          )}
           <button onClick={handleLogout} className="fixed top-4 right-4 mb-4 text-sm text-red-500 hover:cursor-pointer">
             Logout
           </button>
