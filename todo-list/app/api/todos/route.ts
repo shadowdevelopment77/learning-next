@@ -23,9 +23,6 @@ async function getUserIdFromSession(request: NextRequest): Promise<number | null
 }
 
 
-const todos: Todo[] = [];
-
-
 export async function GET(request: NextRequest) {
     console.log("GET /api/todos");
 
@@ -77,7 +74,7 @@ export async function POST(request: NextRequest){
         [body.title.trim(), userId]
     );
     
-    console.log("todos after POST: ", todos)
+    
     const response: ApiResponse<Todo> = {
         data: result.rows[0],
         message: "Todo created successfully",

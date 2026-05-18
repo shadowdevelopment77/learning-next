@@ -3,8 +3,37 @@ import pool from '@/lib/db'
 
 type Params = { params: Promise <{ id: string }> }
 
+
+async function getUserIdFromSession(request: NextRequest): Promise<number | null> {
+    const sessionId = request.cookies.get('session_id')?.value
+
+    if (!sessionId) {
+        return null
+    }
+
+    const result = await pool.query(
+        `SELECT user_id FROM sessions WHERE id = $1 AND expires_at > NOW()`,
+        [sessionId]
+    )
+
+    if (result.rows.length === 0) {
+        return null
+    }
+
+    return result.rows[0].user_id
+}
+
 // PUT /api/todos/[id] — toggle complete or edit title
 export async function PUT(request: NextRequest, { params }: Params) {
+    const userId = await getUserIdFromSession(request);
+    if (!userId) {
+        return NextResponse.json(
+            { success: false, message: "Unauthorized", data: null },
+            { status: 401 }
+        );
+    }
+
+
 
     const { id } = await params
 
@@ -45,6 +74,14 @@ export async function PUT(request: NextRequest, { params }: Params) {
 // DELETE /api/todos/[id] — soft delete
 export async function DELETE(request: NextRequest, { params }: Params) {
 
+    const userId = await getUserIdFromSession(request);
+    if (!userId) {
+        return NextResponse.json(
+            { success: false, message: "Unauthorized", data: null },
+            { status: 401 }
+        );
+    }
+
     const { id } = await params
 
   console.log('DELETE /api/todos/' + id)
@@ -54,8 +91,8 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     `UPDATE todos
      SET is_deleted = true,
          deleted_at = NOW()
-     WHERE id = $1`,
-    [id]
+     WHERE id = $1 AND user_id = $2`,
+    [id, userId]
   )
 
   return NextResponse.json({
