@@ -28,7 +28,7 @@ export default function TodoForm({ onAdd }: Props) {
             />
             <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-600 text-white
+                className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer active:bg-blue-800 text-white
                    px-4 py-2 rounded-lg text-sm"
             >
                 Add

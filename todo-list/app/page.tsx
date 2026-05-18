@@ -86,7 +86,7 @@ export default function HomePage() {
 
     return (
         <main className="max-w-lg mx-auto mt-12 px-4">
-          <button onClick={handleLogout} className="mb-4 text-sm text-red-500 hover:underline">
+          <button onClick={handleLogout} className="fixed top-4 right-4 mb-4 text-sm text-red-500 hover:cursor-pointer">
             Logout
           </button>
 

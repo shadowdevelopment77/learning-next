@@ -37,10 +37,10 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
             className="flex-1 border border-blue-300 rounded px-2 py-1 text-sm"
             autoFocus
           />
-          <button onClick={handleSave} className="text-blue-500 text-sm px-2">
+          <button onClick={handleSave} className="text-blue-500 hover:text-blue-600 hover:cursor-pointer active:text-blue-700 text-sm px-2">
             save
           </button>
-          <button onClick={() => setIsEditing(false)} className="text-gray-400 text-sm px-2">
+          <button onClick={() => setIsEditing(false)} className="text-red-400 hover:text-red-500 hover:cursor-pointer active:text-red-700 text-sm px-2">
             cancel
           </button>
         </>
@@ -52,10 +52,10 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
           }>
             {todo.title}
           </span>
-          <button onClick={() => setIsEditing(true)} className="text-blue-400 text-sm px-2">
+          <button onClick={() => setIsEditing(true)} className="text-blue-400 text-sm px-2 hover:text-blue-500 hover:cursor-pointer active:text-blue-700">
             edit
           </button>
-          <button onClick={() => onDelete(todo.id)} className="text-red-400 text-sm px-2">
+          <button onClick={() => onDelete(todo.id)} className="text-red-400 text-sm px-2 hover:text-red-500 hover:cursor-pointer active:text-red-700">
             delete
           </button>
         </>
