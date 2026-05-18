@@ -8,17 +8,18 @@ import { Todo } from "@/types";
 export default function HomePage() {
     const [todos, setTodos] = useState<Todo[]>([]);
 
-    async function fetchTodos() {
-        const res = await fetch("/api/todos");
-        const data = await res.json();
-        setTodos(data.data);
-    }
-
     useEffect(() => {
-      (async () => {
-        await fetchTodos();
-      })();
-    }, [])
+     async function fetchTodos() {
+      try{
+        const response = await fetch("/api/todos");
+        const json = await response.json();
+        setTodos(json.data);
+      } catch (error) {
+        console.error("Failed to fetch todos:", error);
+      }
+     }
+     fetchTodos();
+    }, []); 
     
     async function handleAdd(title: string) {
         const res = await fetch("/api/todos", {
