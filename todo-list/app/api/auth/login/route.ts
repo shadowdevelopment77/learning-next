@@ -17,12 +17,14 @@ export async function POST(request: NextRequest) {
 
   // find user by email
   const result = await pool.query(
-    `SELECT * FROM users
+    `SELECT id, name, email, password, role, is_active, is_deleted FROM users
      WHERE email = $1
      AND is_deleted = false
      AND is_active  = true`,
     [email]
   )
+  console.log('User found:', result.rows[0])
+console.log('Password from DB:', result.rows[0]?.password)
 
   if (result.rows.length === 0) {
     // don't say "email not found" — security risk

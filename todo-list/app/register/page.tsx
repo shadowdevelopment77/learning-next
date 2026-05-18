@@ -2,17 +2,16 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+
 
 export default function RegisterPage() {
-  const router = useRouter()
   const [name,     setName]     = useState('')
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
   const [error,    setError]    = useState('')
   const [loading,  setLoading]  = useState(false)
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -23,14 +22,16 @@ export default function RegisterPage() {
       body:    JSON.stringify({ name, email, password }),
     })
     const json = await res.json()
+    
     setLoading(false)
+    console.log(json)
 
     if (!json.success) {
       setError(json.message)
       return
     }
 
-    router.push('/')  // redirect to todos after register
+    window.location.href = '/'  // redirect to todos after register
   }
 
   return (
