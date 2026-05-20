@@ -23,8 +23,6 @@ export async function POST(request: NextRequest) {
      AND is_active  = true`,
     [email]
   )
-  console.log('User found:', result.rows[0])
-console.log('Password from DB:', result.rows[0]?.password)
 
   if (result.rows.length === 0) {
     // don't say "email not found" — security risk
